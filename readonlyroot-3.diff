@@ -1,0 +1,40 @@
+Index: aaa_base/etc/init.d/boot.cleanup
+===================================================================
+--- aaa_base.orig/etc/init.d/boot.cleanup
++++ aaa_base/etc/init.d/boot.cleanup
+@@ -29,7 +29,7 @@ case "$1" in
+ 	#
+ 	# clean up
+ 	#
+-	rm -f /var/lib/rpm/__db*
++	rm -f /var/lib/rpm/__db* 2>/dev/null
+ 	rm -rf /tmp/screens /tmp/uscreens /var/run/screens /var/run/uscreens 2>/dev/null
+ 	rm -f /tmp/.X*lock /var/spool/uucp/LCK* /var/log/sa/sadc.LOCK /fsck_corrected_errors 2>/dev/null
+ 	if test -x /usr/bin/find; then
+Index: aaa_base/etc/init.d/boot.localfs
+===================================================================
+--- aaa_base.orig/etc/init.d/boot.localfs
++++ aaa_base/etc/init.d/boot.localfs
+@@ -247,8 +247,7 @@ case "$1" in
+ 	#
+ 	# clean up
+ 	#
+-	rm -f /etc/nologin /nologin /fastboot /forcefsck /success
+-	rc_status -v -r
++	rm -f /etc/nologin /nologin /fastboot /forcefsck /success 2>/dev/null
+ 
+ 	#
+ 	# Mount local filesystems in '/etc/fstab' (and create an entry
+Index: aaa_base/etc/init.d/boot.localnet
+===================================================================
+--- aaa_base.orig/etc/init.d/boot.localnet
++++ aaa_base/etc/init.d/boot.localnet
+@@ -23,7 +23,7 @@ rc_reset
+ case "$1" in
+   start)
+ 	# clean up old yp bindings
+-	rm -f /var/yp/binding/*.[12]
++	rm -f /var/yp/binding/*.[12] 2>/dev/null
+ 	
+ 	#
+ 	# set hostname and domainname
