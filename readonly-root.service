@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount root file system read-only
+Before=systemd-tmpfiles-setup.service local-fs.target
+After=systemd-remount-fs.service
+DefaultDependencies=false
+
+[Install]
+WantedBy=local-fs.target
+
+[Service]
+ExecStart=/usr/sbin/readonly-setup
+RemainAfterExit=yes
+Type=oneshot

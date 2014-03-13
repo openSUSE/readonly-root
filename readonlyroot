@@ -1,0 +1,24 @@
+# Where to mount scratch writable space: if the "scratch" kernel command
+# line parameter is given, mount the specified device here; otherwise,
+# mount a tmpfs filesystem here.  File /etc/rwtab determines which paths
+# on the read-only root filesystem need to be writable, and which files
+# or directories from the read-only root image to copy there.
+SCRATCH_MOUNT=/var/lib/readonlyroot/scratch
+
+# Mount options to use for the scratch filesystem
+SCRATCH_MOUNT_OPTS=
+
+# Where to mount persistent writable data: the "state" kernel command line
+# parameter determines which device to mount here.  Without the "state"
+# parameter, the system will be stateless.
+STATE_MOUNT=/var/lib/readonlyroot/state
+
+# Mount options to use for the state filesystem
+STATE_MOUNT_OPTS=
+
+# When a state file or directory listed in /etc/rwtab does not exist on the
+# state filesystem at boot time but does exist on the read-only root
+# filesystem, "initialize" the state filesystem by copying the file or
+# directory from the read-only root filesystem to the state filesystem.
+INIT_STATE_AUTOMATICALLY=yes
+

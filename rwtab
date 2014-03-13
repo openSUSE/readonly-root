@@ -1,0 +1,45 @@
+dirs	/var/cache/man
+#dirs	/var/gdm
+dirs	/var/lock
+dirs	/var/log
+dirs	/var/run
+
+empty	/tmp
+#empty	/var/cache/foomatic
+#empty	/var/cache/logwatch
+#empty	/var/cache/mod_ssl
+#empty	/var/cache/mod_proxy
+#empty	/var/cache/php-pear
+empty	/var/cache/systemtap
+#empty	/var/db/nscd
+#empty	/var/lib/dav
+#empty	/var/lib/dhcp
+#empty	/var/lib/dhclient
+empty	/var/lib/dhcpcd
+#empty	/var/lib/php
+#empty	/var/lib/ups
+empty	/var/tmp
+empty	/var/tux
+empty	/media
+
+files	/etc/adjtime
+files	/etc/fstab
+files	/etc/ntp.conf
+files	/etc/resolv.conf
+files	/etc/yp.conf
+files	/etc/lvm/.cache
+files	/var/account
+files	/var/adm/netconfig/md5
+files	/var/arpwatch
+files	/var/cache/alchemist
+files	/var/lib/iscsi
+files	/var/lib/logrotate.status
+files	/var/lib/ntp
+files	/var/lib/xen
+
+files	/var/lib/gdm
+#files	/etc/X11/xdm
+
+state	/var/lib/misc/random-seed
+state	/etc/ssh
+state	/etc/HOSTNAME
