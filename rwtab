@@ -1,8 +1,6 @@
 dirs	/var/cache/man
 #dirs	/var/gdm
-dirs	/var/lock
 dirs	/var/log
-dirs	/var/run
 
 empty	/tmp
 #empty	/var/cache/foomatic
@@ -20,7 +18,6 @@ empty	/var/lib/dhcpcd
 #empty	/var/lib/ups
 empty	/var/tmp
 empty	/var/tux
-empty	/media
 
 files	/etc/adjtime
 files	/etc/fstab
