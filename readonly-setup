@@ -28,12 +28,11 @@ rc_cmdline()
 
 rc_readonlyroot()
 {
-    READONLYROOT=1
     if test -z "${READONLYROOT+x}" ; then
-	if rc_cmdline readonlyroot && ! rc_cmdline noreadonlyroot ; then
-	    READONLYROOT=yes
-	fi > /dev/null
-	export READONLYROOT
+		if rc_cmdline readonlyroot && ! rc_cmdline noreadonlyroot ; then
+			READONLYROOT=yes
+		fi > /dev/null
+		export READONLYROOT
     fi
     test -n "$READONLYROOT"
 }
@@ -41,6 +40,8 @@ rc_readonlyroot()
 
 if rc_readonlyroot ; then
 	. /etc/sysconfig/readonlyroot
+	STATE_DEV=$(rc_cmdline state)
+	STATE_DEV=${STATE_DEV#state=}
 	SCRATCH_DEV=$(rc_cmdline scratch)
 	SCRATCH_DEV=${SCRATCH_DEV#scratch=}
 
@@ -83,6 +84,28 @@ if rc_readonlyroot ; then
 	        SCRATCH_MOUNT_USED=1
 	    fi
     }
+
+	if test -d "$STATE_DEV" ; then
+		# Assume the state filesystem is already mounted (i.e., listed in /etc/fstab).
+		STATE_MOUNT=$STATE_DEV
+	elif test -n "$STATE_MOUNT" -a -n "$STATE_DEV" ; then
+		# Mount state filesystem if a state= kernel command line option is
+		# specified.
+		echo "Mounting state filesystem ..."
+		if ! err=$(mount -v -n $STATE_MOUNT_OPTS $STATE_DEV $STATE_MOUNT 2>&1) &&
+		   ! echo "$err" | grep -q "is already mounted on" ; then
+		    rc_status
+		    STATE_MOUNT=
+		fi
+		test -n "$err" && echo "$err" >&2
+	else
+		STATE_MOUNT=
+	fi
+
+	# Allow to override rwtab from the state file system, too.
+	for file in /etc/rwtab /etc/rwtab.d ; do
+		mount_state "$file"
+	done
 
     if test -n "$SCRATCH_MOUNT" ; then
 	    # Mount scratch areas.
