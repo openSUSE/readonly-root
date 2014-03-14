@@ -1,6 +1,6 @@
 [Unit]
 Description=Mount root file system read-only
-Before=systemd-tmpfiles-setup.service local-fs.target
+Before=systemd-tmpfiles-setup.service systemd-random-seed.service local-fs.target
 After=systemd-remount-fs.service
 DefaultDependencies=false
 
