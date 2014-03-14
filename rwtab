@@ -18,6 +18,7 @@ empty	/var/lib/dhcpcd
 #empty	/var/lib/ups
 empty	/var/tmp
 empty	/var/tux
+empty	/var/yp/binding
 
 files	/etc/adjtime
 files	/etc/fstab
@@ -33,10 +34,12 @@ files	/var/lib/iscsi
 files	/var/lib/logrotate.status
 files	/var/lib/ntp
 files	/var/lib/xen
+files	/var/lib/postfix
 
 files	/var/lib/gdm
 #files	/etc/X11/xdm
 
-state	/var/lib/misc/random-seed
+state	/var/lib/systemd/random-seed
+state	/var/log/lastlog
 state	/etc/ssh
 state	/etc/HOSTNAME

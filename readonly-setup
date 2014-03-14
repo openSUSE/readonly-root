@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 cmdline=""
 rc_cmdline()
 {
