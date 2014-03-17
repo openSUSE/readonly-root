@@ -1,0 +1,89 @@
+.\"
+.\" SuSE man page rwtab
+.\" Copyright (c) 2010 SuSE Linux Products GmbH, Nuernberg, Germany.
+.\" please send bugfixes or comments to http://www.suse.de/feedback.
+.\"
+.\"
+.TH RWTAB 5 "December 18th, 2010" "Version 0.0" "Configuration for read-only root file systems"
+.\"
+.UC 5
+.SH NAME
+.\"
+rwtab \- Configuration for read-only root file systems
+.SH SYNOPSIS
+.\"
+.IR /etc/rwtab ", " /etc/rwtab.d
+.\"
+.SH DESCRIPTION
+The file /etc/rwtab and additional files in /etc/rwtab.d specify
+locations on a read-only root file system which are made writable by
+bind mounting a writable file system at that location.  These files are
+processed at boot time after the local file systems have been mounted.
+
+The following kernel command line options determine how rwtab processing
+is done during boot:
+.TP 1.5i
+readonlyroot
+Mount the root file system read-only.  Process rwtab and all files in
+/etc/rwtab.d as described below.
+.TP
+.RI scratch= device
+Mount \fIdevice\fR, and remove all files on this file
+system.  If this option is not specified, a tmpfs file system is used instead.
+.TP
+.RI state= device
+Mount \fIdevice\fR.  Alternatively, if a directory is specified instead of a device,
+assume that the directory is the mount point of a local "auto" mount defined in
+/etc/fstab (which is already mounted when this option is processed).
+
+If this file system contains the files etc/rwtab or etc/rwtab.d, bind
+mount these files over /etc/rwtab and /etc/rwtab.d, respectively, before
+rwtab processing.
+.P
+Each line in rwtab files consists of a keyword followed by a
+\fIpathname\fR.  Empty lines and lines starting with a hash character (#)
+are ignored.  The following keywords are recognized:
+.TP 1.5i
+empty
+Create a new directory \fIpathname\fR and all its parents on
+the scratch file system, and bind mount it to \fIpathname\fR.
+The pathname must be a directory.  If \fIpathname\fR does not exist
+on the read-only root file system, do nothing.
+.TP
+dirs
+Like empty, but copy all directories in the original
+\fIpathname\fR to the writable scratch directory before bind mounting
+the scratch directory over \fIpathname\fR.  Copying is recursive.  The
+pathname must be a directory.
+.TP
+files
+Like empty, but copy all files and directories in the original
+\fIpathname\fR to the writable scratch directory before bind mounting
+the scratch directory over \fIpathname\fR.  Copying is recursive. The
+pathname can be a file or directory.
+.TP
+state
+If \fIpathname\fR exists on the read-only root file system as well as on
+the state file system (see the "state=\fIdevice\fR" kernel command line
+parameter above), bind mount \fIpathname\fR on the state mount to
+\fIpathname\fR on the read-only root file system.
+
+When INIT_STATE_AUTOMATICALLY is set to "yes" in the sysconfig file
+(which is the default),  files or directories which do not yet exist on
+the state file system will be initialized by copying the files on the
+read-only root file system to the state file system first.
+.P
+The state and scratch file systems are mounted as defined in the
+syconfig file, and remain mounted at the specified locations (by
+default /var/lib/readonlyroot/state and /var/lib/readonlyroot/scratch,
+respectively).
+.SH WARNING
+When a file system is specified as a scratch area with the
+"scratch=\fIdevice\fR" kernel command line parameter, all files on that
+file system will be removed at boot time.
+.SH SEE ALSO
+.B /etc/sysconfig/readonlyroot
+.SH COPYRIGHT
+2010 SuSE Linux Products GmbH, Nuernberg, Germany.
+.SH AUTHOR
+Andreas Gruenbacher <agruen@suse.de>
