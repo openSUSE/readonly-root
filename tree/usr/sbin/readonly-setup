@@ -92,7 +92,7 @@ if rc_readonlyroot ; then
 		echo "Mounting state filesystem ..."
 		if ! err=$(mount -v -n $STATE_MOUNT_OPTS $STATE_DEV $STATE_MOUNT 2>&1) &&
 		   ! echo "$err" | grep -q "is already mounted on" ; then
-		    rc_status
+		    /bin/false
 		    STATE_MOUNT=
 		fi
 		test -n "$err" && echo "$err" >&2
