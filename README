@@ -1,0 +1,9 @@
+readonly-root
+=============
+
+This repository makes up the tar ball in the readonly_root package
+http://build.opensuse.org/package/show?package=readonly_root&project=Base:System
+
+After commit, checkout Base:System readonly_root and run
+  osc service dr
+
